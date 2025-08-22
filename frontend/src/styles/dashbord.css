@@ -1,0 +1,136 @@
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashcontainer {
+  display: flex;
+  flex-direction: column;
+  margin: 1%;
+  margin-bottom: 1%;
+  gap: 10px;
+  margin-left: 29%;
+  margin-top: 4%;
+  max-width: 450px;
+  background-color: #fff;
+  padding: 20px;
+  padding-right: 120px;
+  padding-left: 60px;
+  border-radius: 0.5rem;
+  position: relative;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dash-title {
+  color: black;
+}
+
+span {
+  font-weight:500;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: larger;
+}
+
+p {
+  font-weight: 400;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 15px;
+}
+
+.changepass {
+  display: flex;
+  flex-direction: column;
+  margin-left: 29%;
+  max-width: 450px;
+  background-color: #fff;
+  padding: 20px;
+  padding-right: 120px;
+  padding-left: 60px;
+  border-radius: 0.5rem;
+  position: relative;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+
+
+.logout-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #ffffff;
+  color: #dc3545;
+  font-weight: 500;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.edit-button {
+  position: absolute;
+  top: 10px;
+  right: 16%;
+  padding: 10px 20px;
+  border: none;
+  background-color: #ffffff;
+  color: #356ddc;
+  font-weight: 500;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #356ddc;
+  color: white;
+}
+
+form {
+  margin-top: 20px;
+}
+
+form input {
+  display: block;
+  margin: 10px 0;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+}

@@ -1,0 +1,13 @@
+
+
+cd "C:/Users/sanjai/Desktop/Website clone"
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/sanjai-web/LinkedIn-clone.git
+git push -u origin main
+
+
+
+
+C:\Users\sanjai\Desktop\Website clone\frontend

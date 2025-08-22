@@ -1,0 +1,85 @@
+.vidplaycontainer {
+    background-color: white;
+    width: 68%;
+    margin-left: 1%;
+    margin-top: 3%;
+    padding: 20px;
+    
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+}
+
+video {
+    border-radius: 5px;
+    margin-left: 2%;
+}
+
+.vidtitle {
+    color: #121212;
+    font-size: 25px;
+    margin-left: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.maindet {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    flex-direction: row; /* Ensure horizontal alignment */
+}
+
+.vidpro {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+
+.vidpro img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.vidname {
+    font-size: 22px;
+  color: #121212;
+    font-weight:500;
+    margin-left: 10px;
+    position: relative;
+}
+
+
+
+.download-button {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 7px 20px; /* Some padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Make the buttons appear in-line */
+    font-size: 16px; /* Increase font size */
+    font-weight: 500;
+    
+    display: flex;
+    margin: 4px 2px; /* Add some margin */
+    cursor: pointer; /* Add a pointer on hover */
+    border-radius: 8px; /* Rounded corners */
+  }
+  
+  .download-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+
+ .downic{
+    font-size: 20px;
+ }
+
+ .contvid{
+    margin-left: 25px;
+    margin-top: 10px;
+ }
