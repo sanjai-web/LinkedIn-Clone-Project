@@ -5,15 +5,20 @@ import "../styles/signup.css";
 import logo from "../images/logo.png";
 import img from "../images/img3.png";
 import { NavLink } from "react-router-dom";
+import { FaGraduationCap } from "react-icons/fa";
+import { FiUser, FiMail, FiLock, FiBook, FiAward } from 'react-icons/fi';
+
 export default function Signup() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       const response = await axios.post('http://127.0.0.1:3001/signup', {
         firstName,
@@ -27,97 +32,132 @@ export default function Signup() {
     } catch (error) {
       console.error('Error signing up:', error);
       alert('Failed to sign up');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div >
-       <div className="Topnav">
-     <img src={logo} alt="Company Logo" className='logo' style={{ maxWidth: '35px', maxHeight: '35px', left: '40%' } } />
-  <input className="input1" placeholder="Search" style={{ left: '45%' }} />
-  
-  <form className="form6" onSubmit={handleSubmit}>
+    <div className="signup-page">
+      <div className="Topnav">
+       <div className="nav-left">
+               <div className="logo-container">
+                 <FaGraduationCap className="logo-icon" />
+                 <span className="logo-text">EduConnect</span>
+               </div>
+             </div>
+      </div>
       
-   <h3 className="title6" >Signup</h3>
-   <p class="message6">Signup now and get full access to our app. </p>
-     <div className="flex6">
-          
-          <input
-          placeholder='First Name'
-          className="input-container"
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          /><br />
-        </div>
-        <div>
-          
-          <input
-          placeholder='Last Name'
-          className="input-container"
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          /><br />
-        </div>
-        <div>
-          
-          <input
-          placeholder='Email'
-          className="input-container"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          /><br />
-        </div>
-        <div>
-          
-          <input
-          placeholder='Password'
-          className="input-container"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          /><br />
-        </div>
-        <div className='role'>
-          <label>Role</label>
-          <label className="radio-button">
-           
-          <input
-            type="radio"
-            value="Teacher"
-            checked={role === 'Teacher'}
-            onChange={() => setRole('Teacher')}
-          /> 
-           <span className="radio"></span>
-          <span className='teacher'>
-          Teacher
-          </span>
-          </label>
-         
-          <label className="radio-button">
-          <input
-          className='size'
-            type="radio"
-            value="Student"
-            checked={role === 'Student'}
-            onChange={() => setRole('Student')}
+      <div className="signup-container">
+        <div className="signup-form-container">
+          <form className="signup-form" onSubmit={handleSubmit}>
+            <div className="form-header">
+              <h2 className="form-title">Create Account</h2>
+              <p className="form-subtitle">Sign up now and get full access to our platform</p>
+            </div>
             
-          /> 
-          <span className="radio"></span>
-          <span className='student'>
-          Student
-          </span>
-</label>
-
+            <div className="form-grid">
+              <div className="input-group">
+                <div className="input-icon">
+                  <FiUser />
+                </div>
+                <input
+                  placeholder='First Name'
+                  className="form-input"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+              </div>
+              
+              <div className="input-group">
+                <div className="input-icon">
+                  <FiUser />
+                </div>
+                <input
+                  placeholder='Last Name'
+                  className="form-input"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            
+            <div className="input-group">
+              <div className="input-icon">
+                <FiMail />
+              </div>
+              <input
+                placeholder='Email Address'
+                className="form-input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            
+            <div className="input-group">
+              <div className="input-icon">
+                <FiLock />
+              </div>
+              <input
+                placeholder='Password'
+                className="form-input"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {/* </div> */}
+            
+            <div className="role-selection">
+              <p className="role-label">Select your role</p>
+              <div className="role-options">
+                <div 
+                  className={`role-option ${role === 'Teacher' ? 'selected' : ''}`}
+                  onClick={() => setRole('Teacher')}
+                >
+                  <div className="role-icon">
+                    <FiBook />
+                  </div>
+                  <span className="role-text">Teacher</span>
+                </div>
+                
+                <div 
+                  className={`role-option ${role === 'Student' ? 'selected' : ''}`}
+                  onClick={() => setRole('Student')}
+                >
+                  <div className="role-icon">
+                    <FiAward />
+                  </div>
+                  <span className="role-text">Student</span>
+                </div>
+              </div>
+            </div>
+            
+            <button 
+              className={`submit-btn ${isSubmitting ? 'submitting' : ''}`} 
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Creating Account...' : 'Create Account'}
+            </button>
+            
+            <p className="signin-link">
+              Already have an account? <NavLink to="/">Sign in</NavLink>
+            </p>
+          </form>
         </div>
-        <button className="submit6" type="submit">Signup</button>
-        <p className="signin">Already have an acount ? <NavLink to="/">
-            Signin
-          </NavLink> </p>
-      </form>
-      <img src={img} alt="Company Logo" className="logo3" style={{ maxWidth: '650px', maxHeight: '650px' }} />
-    </div></div>
+        
+        <div className="signup-image">
+          <img src={img} style={{ height: "550px", width: "auto" }} alt="Illustration" />
+        </div>
+      </div>
+    </div>
   );
 }

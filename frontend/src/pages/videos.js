@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../styles/videos.css";
 import { RiVideoAddFill } from "react-icons/ri";
-import { MdAccountCircle } from "react-icons/md";
+import { MdAccountCircle, MdSearch, MdClose } from "react-icons/md";
+import { FiMoreVertical } from "react-icons/fi";
 import Modal from 'react-modal';
 import axios from 'axios';
 
@@ -17,6 +18,8 @@ function Videos() {
   const [attachments, setAttachments] = useState([]);
   const [videos, setVideos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +33,7 @@ function Videos() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
-      console.log(response.data); // Log to check if user data is coming correctly
+      console.log(response.data);
       setVideos(response.data);
     } catch (error) {
       console.error('Error fetching videos:', error);
@@ -38,10 +41,21 @@ function Videos() {
   };
 
   const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
+  
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setVideoTitle('');
+    setDescription('');
+    setVideoFile(null);
+    setThumbnailFile(null);
+    setAttachments([]);
+    setUploadProgress(0);
+  };
 
   const handleVideoUpload = async (e) => {
     e.preventDefault();
+    setIsUploading(true);
+    
     const formData = new FormData();
     formData.append('videoTitle', videoTitle);
     formData.append('description', description);
@@ -50,14 +64,19 @@ function Videos() {
       formData.append('thumbnailFile', thumbnailFile);
     }
     attachments.forEach(file => formData.append('attachments', file));
-  
+
     try {
       const response = await axios.post('http://localhost:3001/videos', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setUploadProgress(percentCompleted);
         }
       });
+      
       alert('Video uploaded successfully!');
       closeModal();
       fetchVideos();
@@ -68,6 +87,8 @@ function Videos() {
       } else {
         alert('Failed to upload video.');
       }
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -79,33 +100,52 @@ function Videos() {
     video.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const clearSearch = () => {
+    setSearchTerm('');
+  };
+
   return (
-    <div>
-      <div className='top-content'>
-        <input
-          className="searchvideos"
-          type="text"
-          placeholder="Search Videos by keyword..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <span>
-          <RiVideoAddFill fontSize="35px" className='add-videos' onClick={openModal} />
-        </span>
+    <div className="videos-page">
+      <div className='videos-header'>
+        <h1 className="videos-title"></h1>
+        <div className="search-container">
+          <MdSearch className="search-icon" />
+          <input
+            className="search-videos"
+            type="text"
+            placeholder="Search videos..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          {searchTerm && (
+            <button className="clear-search" onClick={clearSearch}>
+              <MdClose />
+            </button>
+          )}
+        </div>
+        <button className="upload-btn" onClick={openModal}>
+          <RiVideoAddFill className="upload-icon" />
+          Upload
+        </button>
       </div>
 
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Upload Video"
-        className="modal"
-        overlayClassName="overlay"
+        className="modal-content"
+        overlayClassName="modal-overlay"
       >
-        <button onClick={closeModal} className="close-button">&times;</button>
-        <h2>Upload Video</h2>
-        <form onSubmit={handleVideoUpload}>
+        <div className="modal-header">
+          <h2>Upload Video</h2>
+          <button onClick={closeModal} className="close-button">
+            <MdClose />
+          </button>
+        </div>
+        
+        <form onSubmit={handleVideoUpload} className="upload-form">
           <div className="form-group">
-            <label htmlFor="videoTitle">Video Title:</label>
+            <label htmlFor="videoTitle">Video Title</label>
             <input
               type="text"
               id="videoTitle"
@@ -113,77 +153,177 @@ function Videos() {
               value={videoTitle}
               onChange={(e) => setVideoTitle(e.target.value)}
               required
+              placeholder="Enter video title"
             />
+            <span className="char-count">{videoTitle.length}/50</span>
           </div>
+          
           <div className="form-group">
-            <label htmlFor="description">Description:</label>
+            <label htmlFor="description">Description</label>
             <textarea
               id="description"
               value={description}
               maxLength="1000"
               onChange={(e) => setDescription(e.target.value)}
               required
+              placeholder="Describe your video"
+              rows="4"
             ></textarea>
+            <span className="char-count">{description.length}/1000</span>
           </div>
-          <div className="form-group">
-            <label htmlFor="videoFile">Video File:</label>
+          
+          <div className="form-group file-group">
+            <label htmlFor="videoFile" className="file-label">
+              <span>Video File</span>
+              <div className="file-input">
+                <span>{videoFile ? videoFile.name : 'Choose file'}</span>
+                <span className="browse-btn">Browse</span>
+              </div>
+            </label>
             <input
               type="file"
               id="videoFile"
               accept="video/*"
               onChange={(e) => setVideoFile(e.target.files[0])}
               required
+              className="hidden-input"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="thumbnailFile">Thumbnail:</label>
+          
+          <div className="form-group file-group">
+            <label htmlFor="thumbnailFile" className="file-label">
+              <span>Thumbnail (Optional)</span>
+              <div className="file-input">
+                <span>{thumbnailFile ? thumbnailFile.name : 'Choose file'}</span>
+                <span className="browse-btn">Browse</span>
+              </div>
+            </label>
             <input
               type="file"
               id="thumbnailFile"
               accept="image/*"
               onChange={(e) => setThumbnailFile(e.target.files[0])}
+              className="hidden-input"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="attachments">Attachments (PDF/Word/Images):</label>
+          
+          <div className="form-group file-group">
+            <label htmlFor="attachments" className="file-label">
+              <span>Attachments (Optional)</span>
+              <div className="file-input">
+                <span>{attachments.length > 0 ? `${attachments.length} files selected` : 'Choose files'}</span>
+                <span className="browse-btn">Browse</span>
+              </div>
+            </label>
             <input
               type="file"
               id="attachments"
               accept=".pdf,.doc,.docx,image/*"
               multiple
               onChange={(e) => setAttachments(Array.from(e.target.files))}
+              className="hidden-input"
             />
           </div>
+          
+          {isUploading && (
+            <div className="upload-progress">
+              <div className="progress-bar">
+                <div 
+                  className="progress-fill" 
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+              <span className="progress-text">{uploadProgress}% Uploaded</span>
+            </div>
+          )}
+          
           <div className="form-actions">
-            <button type="submit" className="upload-button">Upload</button>
+            <button 
+              type="button" 
+              onClick={closeModal} 
+              className="cancel-btn"
+              disabled={isUploading}
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              className="upload-button"
+              disabled={isUploading}
+            >
+              {isUploading ? 'Uploading...' : 'Upload Video'}
+            </button>
           </div>
         </form>
       </Modal>
 
-      <div className="videos-list">
-        {filteredVideos.map(video => (
-          <div 
-            key={video._id} 
-            className="video-item" 
-            onClick={() => handleThumbnailClick(video._id)}
-            style={{ cursor: 'pointer' }}
-          >
-            {video.thumbnailUrl && <img src={`http://localhost:3001${video.thumbnailUrl}`} alt="Thumbnail" />}
-            <h3>{video.title}</h3>
-            {/* <div className="video-info">
-              {video.user && video.user.profileImageUrl ? (
-                <img 
-                  src={`http://localhost:3001${video.user.profileImageUrl}`} 
-                  alt="Profile" 
-                  style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                />
-              ) : (
-                <MdAccountCircle style={{ width: '40px', height: '40px' }} />
-              )}
-              <p>{video.user ? `${video.user.firstName} ${video.user.lastName}` : 'Unknown'}</p>
-            </div> */}
+      <div className="videos-content">
+        {filteredVideos.length > 0 ? (
+          <div className="videos-grid">
+            {filteredVideos.map(video => (
+              <div 
+                key={video._id} 
+                className="video-card"
+                onClick={() => handleThumbnailClick(video._id)}
+              >
+                <div className="thumbnail-container">
+                  {video.thumbnailUrl ? (
+                    <img 
+                      src={`http://localhost:3001${video.thumbnailUrl}`} 
+                      alt="Thumbnail" 
+                      className="video-thumbnail"
+                    />
+                  ) : (
+                    <div className="thumbnail-placeholder">
+                      <RiVideoAddFill />
+                    </div>
+                  )}
+                  <div className="video-duration">10:25</div>
+                </div>
+                
+                <div className="video-info">
+                  <div className="video-meta">
+                    <h3 className="video-title">{video.title}</h3>
+                    <div className="video-stats">
+                      <span className="views">1.2K views</span>
+                      <span className="upload-date">2 days ago</span>
+                    </div>
+                  </div>
+                  
+                  <div className="video-creator">
+                    {video.user && video.user.profileImageUrl ? (
+                      <img 
+                        src={`http://localhost:3001${video.user.profileImageUrl}`} 
+                        alt="Profile" 
+                        className="creator-avatar"
+                      />
+                    ) : (
+                      <MdAccountCircle className="creator-avatar" />
+                    )}
+                    <span className="creator-name">
+                      {video.user ? `${video.user.firstName} ${video.user.lastName}` : 'Unknown'}
+                    </span>
+                  </div>
+                </div>
+                
+                <button className="video-menu-btn">
+                  <FiMoreVertical />
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
+        ) : (
+          <div className="empty-state">
+            <RiVideoAddFill className="empty-icon" />
+            <h3>No videos found</h3>
+            <p>{searchTerm ? 'Try a different search term' : 'Upload your first video to get started'}</p>
+            {!searchTerm && (
+              <button className="upload-btn primary" onClick={openModal}>
+                Upload Video
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

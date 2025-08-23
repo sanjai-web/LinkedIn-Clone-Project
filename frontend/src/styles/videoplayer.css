@@ -1,85 +1,399 @@
+/* videoplayer.css */
 .vidplaycontainer {
     background-color: white;
-    width: 68%;
-    margin-left: 1%;
-    margin-top: 3%;
-    padding: 20px;
-    
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
+    width: 60%; /* Reduced from 70% */
+    margin: 2% auto; /* Reduced from 3% */
+    margin-top: 70px; /* Reduced from 80px */
+    padding: 20px; /* Reduced from 24px */
+    border-radius: 10px; /* Reduced from 12px */
+    font-family: 'Roboto', 'Arial', sans-serif;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07); /* Lighter shadow */
 }
 
-video {
-    border-radius: 5px;
-    margin-left: 2%;
+.video-wrapper {
+    border-radius: 10px; /* Reduced from 12px */
+    overflow: hidden;
+    margin-bottom: 16px; /* Reduced from 20px */
+    background: #000;
+}
+
+.video-wrapper video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 60vh; /* Reduced from 70vh */
 }
 
 .vidtitle {
-    color: #121212;
-    font-size: 25px;
-    margin-left: 20px;
-    font-weight: bold;
-    margin-top: 10px;
+    color: #0f0f0f;
+    font-size: 1.3rem; /* Reduced from 1.5rem */
+    font-weight: 600;
+    margin: 0 0 12px 0; /* Reduced from 16px */
+    line-height: 1.3;
 }
 
-.maindet {
+.video-metadata {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
-    flex-direction: row; /* Ensure horizontal alignment */
+    padding-bottom: 12px; /* Reduced from 16px */
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 12px; /* Reduced from 16px */
+    flex-wrap: wrap;
+    gap: 10px; /* Reduced from 12px */
 }
 
-.vidpro {
-    display: flex;
-    align-items: center;
-    margin-left: 15px;
-    margin-top: 10px;
-}
-
-.vidpro img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 5px;
-}
-
-.vidname {
-    font-size: 22px;
-  color: #121212;
-    font-weight:500;
-    margin-left: 10px;
-    position: relative;
-}
-
-
-
-.download-button {
-    background-color: #4CAF50; /* Green background */
-    border: none; /* Remove borders */
-    color: white; /* White text */
-    padding: 7px 20px; /* Some padding */
-    text-align: center; /* Center text */
-    text-decoration: none; /* Remove underline */
-    display: inline-block; /* Make the buttons appear in-line */
-    font-size: 16px; /* Increase font size */
+.view-count {
+    color: #606060;
+    font-size: 0.85rem; /* Reduced from 0.9rem */
     font-weight: 500;
-    
+}
+
+.video-actions {
     display: flex;
-    margin: 4px 2px; /* Add some margin */
-    cursor: pointer; /* Add a pointer on hover */
-    border-radius: 8px; /* Rounded corners */
-  }
-  
-  .download-button:hover {
-    background-color: #45a049; /* Darker green on hover */
-  }
-  
+    gap: 6px; /* Reduced from 8px */
+}
 
- .downic{
-    font-size: 20px;
- }
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Reduced from 6px */
+    background: #f0f0f0;
+    border: none;
+    border-radius: 16px; /* Reduced from 18px */
+    padding: 6px 12px; /* Reduced from 8px 16px */
+    font-size: 0.85rem; /* Reduced from 0.9rem */
+    font-weight: 500;
+    color: #606060;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
- .contvid{
-    margin-left: 25px;
-    margin-top: 10px;
- }
+.action-btn:hover {
+    background: #e5e5e5;
+}
+
+.action-btn.active {
+    color: #065fd4;
+}
+
+.action-btn svg {
+    font-size: 1.1rem; /* Reduced from 1.2rem */
+}
+
+.channel-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0; /* Reduced from 16px */
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 16px; /* Reduced from 20px */
+}
+
+.channel-details {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Reduced from 12px */
+}
+
+.channel-avatar {
+    width: 42px; /* Reduced from 48px */
+    height: 42px; /* Reduced from 48px */
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+}
+
+.channel-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.channel-avatar svg {
+    font-size: 42px; /* Reduced from 48px */
+    color: #909090;
+}
+
+.channel-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.channel-name {
+    font-weight: 500;
+    color: #0f0f0f;
+    margin: 0;
+    font-size: 0.95rem; /* Reduced from 1rem */
+}
+
+.subscriber-count {
+    color: #606060;
+    font-size: 0.75rem; /* Reduced from 0.8rem */
+    margin: 3px 0 0 0; /* Reduced from 4px */
+}
+
+.subscribe-btn {
+    background: #cc0000;
+    color: white;
+    border: none;
+    border-radius: 16px; /* Reduced from 18px */
+    padding: 8px 14px; /* Reduced from 10px 16px */
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-size: 0.85rem; /* Added font size */
+}
+
+.subscribe-btn:hover {
+    background: #a10000;
+}
+
+.video-description {
+    background: #f9f9f9;
+    border-radius: 8px; /* Reduced from 10px */
+    padding: 14px; /* Reduced from 16px */
+    margin-bottom: 20px; /* Reduced from 24px */
+}
+
+.video-description h3 {
+    margin: 0 0 10px 0; /* Reduced from 12px */
+    font-size: 1rem; /* Reduced from 1.1rem */
+    color: #0f0f0f;
+}
+
+.video-description p {
+    margin: 0;
+    color: #606060;
+    line-height: 1.4; /* Reduced from 1.5 */
+    font-size: 0.9rem; /* Reduced from 0.95rem */
+}
+
+.attachments-section {
+    margin-top: 20px; /* Reduced from 24px */
+}
+
+.attachments-section h3 {
+    margin: 0 0 14px 0; /* Reduced from 16px */
+    font-size: 1rem; /* Reduced from 1.1rem */
+    color: #0f0f0f;
+}
+
+.attachments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Reduced from 280px */
+    gap: 14px; /* Reduced from 16px */
+}
+
+.attachment-card {
+    display: flex;
+    align-items: center;
+    background: #f9f9f9;
+    border-radius: 8px; /* Reduced from 10px */
+    padding: 14px; /* Reduced from 16px */
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.attachment-card:hover {
+    background: #f0f0f0;
+    border-color: #e5e5e5;
+    transform: translateY(-1px); /* Reduced from -2px */
+}
+
+.attachment-icon {
+    font-size: 1.8rem; /* Reduced from 2rem */
+    color: #cc0000;
+    margin-right: 14px; /* Reduced from 16px */
+}
+
+.attachment-info {
+    flex: 1;
+}
+
+.attachment-info h4 {
+    margin: 0 0 3px 0; /* Reduced from 4px */
+    font-size: 0.9rem; /* Reduced from 0.95rem */
+    color: #0f0f0f;
+}
+
+.attachment-info p {
+    margin: 0;
+    font-size: 0.75rem; /* Reduced from 0.8rem */
+    color: #606060;
+}
+
+.download-btn {
+    color: #065fd4;
+    font-size: 1.1rem; /* Reduced from 1.2rem */
+}
+
+/* Skeleton loading styles - reduced sizes */
+.skeleton-video-player {
+    width: 100%;
+    height: 350px; /* Reduced from 400px */
+    background: #e0e0e0;
+    border-radius: 10px; /* Reduced from 12px */
+    margin-bottom: 16px; /* Reduced from 20px */
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-details {
+    padding: 0 14px; /* Reduced from 16px */
+}
+
+.skeleton-title {
+    height: 24px; /* Reduced from 28px */
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 14px; /* Reduced from 16px */
+    width: 70%;
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-views {
+    height: 18px; /* Reduced from 20px */
+    width: 90px; /* Reduced from 100px */
+    background: #e0e0e0;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-actions {
+    height: 32px; /* Reduced from 36px */
+    width: 180px; /* Reduced from 200px */
+    background: #e0e0e0;
+    border-radius: 16px; /* Reduced from 18px */
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-avatar {
+    width: 42px; /* Reduced from 48px */
+    height: 42px; /* Reduced from 48px */
+    border-radius: 50%;
+    background: #e0e0e0;
+    margin-right: 10px; /* Reduced from 12px */
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-channel-name {
+    height: 18px; /* Reduced from 20px */
+    width: 110px; /* Reduced from 120px */
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 6px; /* Reduced from 8px */
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-subscribers {
+    height: 14px; /* Reduced from 16px */
+    width: 70px; /* Reduced from 80px */
+    background: #e0e0e0;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-description {
+    height: 50px; /* Reduced from 60px */
+    background: #e0e0e0;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .vidplaycontainer {
+        width: 75%; /* Adjusted from 85% */
+    }
+}
+
+@media (max-width: 900px) {
+    .vidplaycontainer {
+        width: 90%; /* Adjusted from 95% */
+        margin: 2% auto;
+        padding: 16px;
+    }
+    
+    .video-metadata {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .channel-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px; /* Reduced from 16px */
+    }
+    
+    .subscribe-btn {
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 600px) {
+    .vidplaycontainer {
+        width: 95%;
+        margin-top: 60px; /* Reduced from 70px */
+        padding: 14px; /* Reduced from 16px */
+    }
+    
+    .vidtitle {
+        font-size: 1.1rem; /* Reduced from 1.2rem */
+    }
+    
+    .video-actions {
+        flex-wrap: wrap;
+    }
+    
+    .attachments-grid {
+        grid-template-columns: 1fr;
+        gap: 12px; /* Reduced from 14px */
+    }
+    
+    .video-wrapper video {
+        max-height: 50vh; /* Reduced from 60vh */
+    }
+}
+
+@media (max-width: 480px) {
+    .vidplaycontainer {
+        width: 98%;
+        margin: 1% auto;
+        padding: 12px;
+        border-radius: 8px;
+    }
+    
+    .video-wrapper {
+        border-radius: 8px;
+    }
+    
+    .vidtitle {
+        font-size: 1rem;
+    }
+    
+    .action-btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .action-btn svg {
+        font-size: 1rem;
+    }
+}

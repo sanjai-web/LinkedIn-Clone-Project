@@ -85,7 +85,7 @@ const Chat = () => {
           <>
             <h3 className='chat-header-name'>
               {selectedUser.profileImageUrl ? (
-                <img
+                <img className='selected-user-avatar'
                   src={`http://localhost:3001${selectedUser.profileImageUrl}`}
                   alt="Profile"
                   style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
