@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const cors = require('cors');
@@ -189,7 +189,7 @@ app.post('/login', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcryptjs.compare(password, user.password);
     console.log(isMatch);
     if (!isMatch) {
       return res.status(401).json({ message: 'Incorrect password' });
@@ -212,12 +212,12 @@ app.put('/user/password', verifyToken, async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    const isMatch = await bcryptjs.compare(currentPassword, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Current password is incorrect' });
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcryptjs.hash(newPassword, 10);
     user.password = hashedPassword;
     await user.save();
 
