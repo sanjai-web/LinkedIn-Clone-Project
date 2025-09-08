@@ -1,9 +1,14 @@
 import axios from 'axios';
 
+// Determine API base URL based on environment
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+  : 'http://localhost:3001';
+
 export const fetchUser = () => async (dispatch) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get('http://localhost:3001/user', {
+    const response = await axios.get(`${API_BASE_URL}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     dispatch({ type: 'SET_USER', payload: response.data });
@@ -18,8 +23,11 @@ export const updateProfileImage = (file) => async (dispatch) => {
 
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.put('http://localhost:3001/user/profile-image', formData, {
-      headers: { Authorization: `Bearer ${token}` },
+    const response = await axios.put(`${API_BASE_URL}/user/profile-image`, formData, {
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      },
     });
     dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: response.data.profileImageUrl });
   } catch (error) {

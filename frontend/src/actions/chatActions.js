@@ -7,10 +7,15 @@ export const FETCH_MESSAGES_SUCCESS = 'FETCH_MESSAGES_SUCCESS';
 export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
 export const FETCH_UNREAD_MESSAGES_SUCCESS = 'FETCH_UNREAD_MESSAGES_SUCCESS';
 
+// Determine API base URL based on environment
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+  : 'http://localhost:3001';
+
 export const fetchUsers = () => async (dispatch) => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3001/users', {
+    const response = await axios.get(`${API_BASE_URL}/users`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     dispatch({ type: FETCH_USERS_SUCCESS, payload: response.data.filter(user => user !== null) });
@@ -22,7 +27,7 @@ export const fetchUsers = () => async (dispatch) => {
 export const fetchCurrentUser = () => async (dispatch) => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3001/user', {
+    const response = await axios.get(`${API_BASE_URL}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     dispatch({ type: FETCH_CURRENT_USER_SUCCESS, payload: response.data });
@@ -34,7 +39,7 @@ export const fetchCurrentUser = () => async (dispatch) => {
 export const fetchMessages = (userId) => async (dispatch) => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get(`http://localhost:3001/messages/${userId}`, {
+    const response = await axios.get(`${API_BASE_URL}/messages/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     dispatch({ type: FETCH_MESSAGES_SUCCESS, payload: response.data });
@@ -46,7 +51,7 @@ export const fetchMessages = (userId) => async (dispatch) => {
 export const sendMessage = (receiverId, message) => async (dispatch) => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.post('http://localhost:3001/messages', {
+    const response = await axios.post(`${API_BASE_URL}/messages`, {
       receiverId,
       message,
     }, {
@@ -62,7 +67,7 @@ export const sendMessage = (receiverId, message) => async (dispatch) => {
 export const fetchUnreadMessages = () => async (dispatch) => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3001/unread-messages', {
+    const response = await axios.get(`${API_BASE_URL}/unread-messages`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     dispatch({ type: FETCH_UNREAD_MESSAGES_SUCCESS, payload: response.data });

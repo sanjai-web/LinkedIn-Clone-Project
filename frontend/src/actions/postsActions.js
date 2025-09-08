@@ -7,10 +7,15 @@ export const fetchPostsSuccess = (posts) => ({
   payload: posts,
 });
 
+// Determine API base URL based on environment
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+  : 'http://localhost:3001';
+
 export const fetchPosts = () => async (dispatch) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get('http://localhost:3001/posts', {
+    const response = await axios.get(`${API_BASE_URL}/posts`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
