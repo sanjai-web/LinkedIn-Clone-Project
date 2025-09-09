@@ -17,6 +17,11 @@ export default function Home() {
   const [currentPostId, setCurrentPostId] = useState(null);
   const [mediaPreview, setMediaPreview] = useState(null);
 
+  // Determine API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+    : 'http://localhost:3001';
+
   useEffect(() => {
     dispatch(fetchPosts());
     fetchCurrentUser();
@@ -25,7 +30,7 @@ export default function Home() {
   const fetchCurrentUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      await axios.get("http://localhost:3001/user", {
+      await axios.get(`${API_BASE_URL}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -69,7 +74,7 @@ export default function Home() {
     }
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:3001/posts", formData, {
+      await axios.post(`${API_BASE_URL}/posts`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -89,7 +94,7 @@ export default function Home() {
   const handleEditPost = async (postId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(`http://localhost:3001/posts/${postId}`, {
+      const response = await axios.get(`${API_BASE_URL}/posts/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -97,7 +102,7 @@ export default function Home() {
       const { description, mediaUrl } = response.data;
       setDescription(description);
       setMedia(null);
-      setMediaPreview(mediaUrl ? `http://localhost:3001${mediaUrl}` : null);
+      setMediaPreview(mediaUrl ? `${API_BASE_URL}${mediaUrl}` : null);
       setCurrentPostId(postId);
       setShowMenu(null);
     } catch (error) {
@@ -114,7 +119,7 @@ export default function Home() {
     }
     try {
       const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:3001/posts/${postId}`, formData, {
+      await axios.put(`${API_BASE_URL}/posts/${postId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -136,7 +141,7 @@ export default function Home() {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3001/posts/${postId}`, {
+        await axios.delete(`${API_BASE_URL}/posts/${postId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -184,7 +189,7 @@ export default function Home() {
             {currentUser && currentUser.profileImageUrl ? (
               <img 
                 className="profile-image"
-                src={`http://localhost:3001${currentUser.profileImageUrl}`}
+                src={`${API_BASE_URL}${currentUser.profileImageUrl}`}
                 alt="Profile"
               />
             ) : (
@@ -299,7 +304,7 @@ export default function Home() {
                   {post.user && post.user.profileImageUrl ? (
                     <img
                       className="profile-image"
-                      src={`http://localhost:3001${post.user.profileImageUrl}`}
+                      src={`${API_BASE_URL}${post.user.profileImageUrl}`}
                       alt="Profile"
                     />
                   ) : (
@@ -350,14 +355,14 @@ export default function Home() {
                     {post.mediaUrl.endsWith(".mp4") ? (
                       <video controls>
                         <source
-                          src={`http://localhost:3001${post.mediaUrl}`}
+                          src={`${API_BASE_URL}${post.mediaUrl}`}
                           type="video/mp4"
                         />
                         Your browser does not support the video tag.
                       </video>
                     ) : (
                       <img
-                        src={`http://localhost:3001${post.mediaUrl}`}
+                        src={`${API_BASE_URL}${post.mediaUrl}`}
                         alt="Post media"
                       />
                     )}

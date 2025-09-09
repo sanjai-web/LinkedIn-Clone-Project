@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "../styles/navbar.css";
 import "../styles/signup.css";
-import logo from "../images/logo.png";
+// import logo from "../images/logo.png";
 import img from "../images/img3.png";
 import { NavLink } from "react-router-dom";
 import { FaGraduationCap } from "react-icons/fa";
@@ -17,26 +17,31 @@ export default function Signup() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      const response = await axios.post('http://127.0.0.1:3001/signup', {
-        firstName,
-        lastName,
-        email,
-        password,
-        role
-      });
-      alert(response.data.message);
-      window.location.href = '/'; // Redirect to login page after successful signup
-    } catch (error) {
-      console.error('Error signing up:', error);
-      alert('Failed to sign up');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
+  e.preventDefault();
+  setIsSubmitting(true);
+  
+  // Determine API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+    : 'http://127.0.0.1:3001';
+  
+  try {
+    const response = await axios.post(`${API_BASE_URL}/signup`, {
+      firstName,
+      lastName,
+      email,
+      password,
+      role
+    });
+    alert(response.data.message);
+    window.location.href = '/'; // Redirect to login page after successful signup
+  } catch (error) {
+    console.error('Error signing up:', error);
+    alert('Failed to sign up');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
   return (
     <div className="signup-page">
       <div className="Topnav">

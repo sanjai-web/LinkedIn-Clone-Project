@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import "../styles/navbar.css";
-import logo from "../images/On.png";
 import { FaHome, FaBell, FaBookOpen, FaGraduationCap } from "react-icons/fa";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { AiOutlineMessage } from "react-icons/ai";
@@ -13,6 +12,11 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Define API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+    : 'http://localhost:3001';
+
   useEffect(() => {
     fetchCurrentUser();
   }, []);
@@ -20,7 +24,7 @@ function Navbar() {
   const fetchCurrentUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3001/user", {
+      const response = await axios.get(`${API_BASE_URL}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -87,14 +91,6 @@ function Navbar() {
           <span className="nav-label">Messages</span>
         </NavLink>
         
-        {/* <NavLink 
-          to="/courses" 
-          className={`nav-item ${isActiveRoute('/courses') ? 'active' : ''}`}
-        >
-          <FaBookOpen className="nav-icon" />
-          <span className="nav-label">Courses</span>
-        </NavLink> */}
-        
         <NavLink 
           to="/videos" 
           className={`nav-item ${isActiveRoute('/videos') ? 'active' : ''}`}
@@ -122,7 +118,7 @@ function Navbar() {
             {currentUser && currentUser.profileImageUrl ? (
               <img 
                 className="profile-nav"
-                src={`http://localhost:3001${currentUser.profileImageUrl}`}
+                src={`${API_BASE_URL}${currentUser.profileImageUrl}`}
                 alt="Profile"
               />
             ) : (

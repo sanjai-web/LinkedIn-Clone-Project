@@ -16,6 +16,11 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
 
+  // Determine API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+    : 'http://localhost:3001';
+
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
@@ -51,7 +56,7 @@ const Dashboard = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put('http://localhost:3001/user/details', details, {
+      const response = await axios.put(`${API_BASE_URL}/user/details`, details, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessage(response.data.message);
@@ -82,7 +87,7 @@ const Dashboard = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put('http://localhost:3001/user/profile-image', formData, {
+      const response = await axios.put(`${API_BASE_URL}/user/profile-image`, formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessage(response.data.message);
@@ -132,7 +137,7 @@ const Dashboard = () => {
             <div className="profile-image-container">
               {user.profileImageUrl ? (
                 <img 
-                  src={`http://localhost:3001${user.profileImageUrl}`} 
+                  src={`${API_BASE_URL}${user.profileImageUrl}`} 
                   alt="Profile" 
                   className="profile-image"
                 />

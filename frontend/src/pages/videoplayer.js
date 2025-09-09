@@ -13,11 +13,16 @@ function VideoPlayer() {
   const [likeCount, setLikeCount] = useState(0);
   const [viewCount, setViewCount] = useState(0);
 
+  // Define API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+    : 'http://localhost:3001';
+
   useEffect(() => {
     console.log("Video ID:", videoId);
     const fetchVideo = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/videos/${videoId}`, {
+        const response = await axios.get(`${API_BASE_URL}/videos/${videoId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -32,7 +37,7 @@ function VideoPlayer() {
     };
   
     fetchVideo();
-  }, [videoId]);
+  }, [videoId, API_BASE_URL]);
   
   const handleLike = () => {
     if (isLiked) {
@@ -89,7 +94,7 @@ function VideoPlayer() {
       <div className='vidplaycontainer'>
         <div className="video-wrapper">
           <video controls width="100%">
-            <source src={`http://localhost:3001${video.videoUrl}`} type="video/mp4" />
+            <source src={`${API_BASE_URL}${video.videoUrl}`} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -129,7 +134,7 @@ function VideoPlayer() {
               <div className='channel-avatar'>
                 {video.user && video.user.profileImageUrl ? (
                   <img 
-                    src={`http://localhost:3001${video.user.profileImageUrl}`} 
+                    src={`${API_BASE_URL}${video.user.profileImageUrl}`} 
                     alt="Profile" 
                   />
                 ) : (
@@ -156,7 +161,7 @@ function VideoPlayer() {
                 {video.attachments.map((attachment, index) => (
                   <a 
                     key={index} 
-                    href={`http://localhost:3001${attachment}`} 
+                    href={`${API_BASE_URL}${attachment}`} 
                     download
                     className="attachment-card"
                   >

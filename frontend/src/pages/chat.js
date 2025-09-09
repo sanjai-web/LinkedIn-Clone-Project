@@ -3,12 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsers, fetchCurrentUser, fetchMessages, sendMessage, fetchUnreadMessages } from '../actions/chatActions';
 import "../styles/chat.css";
 import { MdAccountCircle } from "react-icons/md";
+
 const Chat = () => {
   const dispatch = useDispatch();
   const { users, currentUser, messages, unreadMessages } = useSelector(state => state.chat);
   const [message, setMessage] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Determine API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+    : 'http://localhost:3001';
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -37,8 +43,7 @@ const Chat = () => {
     setSearchTerm(event.target.value);
   };
 
-  //search
-
+  // Search
   const filteredUsers = users
     .filter(user => user !== null)
     .filter(user =>
@@ -65,7 +70,7 @@ const Chat = () => {
             >
               {user.profileImageUrl ? (
                 <img
-                  src={`http://localhost:3001${user.profileImageUrl}`}
+                  src={`${API_BASE_URL}${user.profileImageUrl}`}
                   alt="Profile"
                   style={{ width: '40px', height: '40px', borderRadius: '50%' }}
                 />
@@ -86,7 +91,7 @@ const Chat = () => {
             <h3 className='chat-header-name'>
               {selectedUser.profileImageUrl ? (
                 <img className='selected-user-avatar'
-                  src={`http://localhost:3001${selectedUser.profileImageUrl}`}
+                  src={`${API_BASE_URL}${selectedUser.profileImageUrl}`}
                   alt="Profile"
                   style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
                 />
@@ -108,6 +113,7 @@ const Chat = () => {
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
               />
               <button onClick={handleSendMessage}>Send</button>
             </div>

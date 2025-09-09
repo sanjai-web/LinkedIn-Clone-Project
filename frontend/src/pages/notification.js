@@ -10,11 +10,16 @@ const Notifications = () => {
   const [activeNotification, setActiveNotification] = useState(null);
   const navigate = useNavigate();
 
+  // Define API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+    : 'http://localhost:3001';
+
   useEffect(() => {
     const fetchNotifications = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:3001/notifications', {
+        const response = await axios.get(`${API_BASE_URL}/notifications`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setNotifications(response.data);
@@ -24,12 +29,12 @@ const Notifications = () => {
     };
 
     fetchNotifications();
-  }, []);
+  }, [API_BASE_URL]);
 
   const handleNotificationClick = async (notification) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.put(`http://localhost:3001/notifications/${notification._id}/read`, {}, {
+      await axios.put(`${API_BASE_URL}/notifications/${notification._id}/read`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (notification.senderId && notification.senderId._id) {
@@ -45,7 +50,7 @@ const Notifications = () => {
   const markAllAsRead = async () => {
     const token = localStorage.getItem('token');
     try {
-      await axios.put('http://localhost:3001/notifications/mark-all-read', {}, {
+      await axios.put(`${API_BASE_URL}/notifications/mark-all-read`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       // Update local state to reflect read status
@@ -92,7 +97,7 @@ const Notifications = () => {
                 <div className="notification-avatar">
                   {notification.senderId && notification.senderId.profileImageUrl ? (
                     <img
-                      src={`http://localhost:3001${notification.senderId.profileImageUrl}`}
+                      src={`${API_BASE_URL}${notification.senderId.profileImageUrl}`}
                       alt="Profile"
                     />
                   ) : (

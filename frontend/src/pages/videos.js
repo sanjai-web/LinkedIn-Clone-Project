@@ -10,6 +10,10 @@ import axios from 'axios';
 Modal.setAppElement('#root');
 
 function Videos() {
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+    : 'http://localhost:3001';
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [videoTitle, setVideoTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -28,7 +32,7 @@ function Videos() {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/videos', {
+      const response = await axios.get(`${API_BASE_URL}/videos`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -66,7 +70,7 @@ function Videos() {
     attachments.forEach(file => formData.append('attachments', file));
 
     try {
-      const response = await axios.post('http://localhost:3001/videos', formData, {
+      const response = await axios.post(`${API_BASE_URL}/videos`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -269,7 +273,7 @@ function Videos() {
                 <div className="thumbnail-container">
                   {video.thumbnailUrl ? (
                     <img 
-                      src={`http://localhost:3001${video.thumbnailUrl}`} 
+                      src={`${API_BASE_URL}${video.thumbnailUrl}`} 
                       alt="Thumbnail" 
                       className="video-thumbnail"
                     />
@@ -293,7 +297,7 @@ function Videos() {
                   <div className="video-creator">
                     {video.user && video.user.profileImageUrl ? (
                       <img 
-                        src={`http://localhost:3001${video.user.profileImageUrl}`} 
+                        src={`${API_BASE_URL}${video.user.profileImageUrl}`} 
                         alt="Profile" 
                         className="creator-avatar"
                       />

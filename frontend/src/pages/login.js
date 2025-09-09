@@ -15,13 +15,18 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Define API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://linkedin-clone-backend-aojx.onrender.com' 
+    : 'http://localhost:3001';
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setMessage("");
     
     try {
-      const response = await axios.post("http://localhost:3001/login", {
+      const response = await axios.post(`${API_BASE_URL}/login`, {
         email,
         password,
       });

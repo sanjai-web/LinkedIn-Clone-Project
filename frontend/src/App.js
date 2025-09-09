@@ -8,7 +8,7 @@ import Signup from "./pages/signup";
 import Dash from "./pages/dashbord";
 import Videos from "./pages/videos";
 import Notifications from "./pages/notification";
-import Main from "./pages/main";
+// import Main from "./pages/main";
 import VideoPlayer from "./pages/videoplayer";
 
 function AppLayout() {
@@ -28,7 +28,7 @@ function AppLayout() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/videos" element={<Videos />} />
         <Route path="/" element={<Login />} />
-        <Route path="/main" element={<Main />} />
+        {/* <Route path="/main" element={<Main />} /> */}
       </Routes>
     </div>
   );
