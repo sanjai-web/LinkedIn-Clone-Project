@@ -23,8 +23,8 @@
 .chat-container {
   display: flex;
   width: 100%;
-  height: 100vh;
-  margin-top: 80px;
+  height: 90vh;
+  margin-top: 55px;
   background-color: var(--light-edu);
 }
 
@@ -192,9 +192,9 @@ body{
 }
 
 .chat-header-name {
-   
-   
-  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  /* margin-top: 20px; */
   padding: 15px 20px;
   background-color: rgb(255, 255, 255);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -207,16 +207,11 @@ body{
 }
 
 .selected-user-avatar {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #e6e9f0;
-  margin-right: 15px;
- 
+  margin-right: 12px;
+  object-fit: cover;
 }
 
 .selected-user-avatar img {
@@ -229,8 +224,6 @@ body{
   font-weight: 600;
   font-size: 1.1rem;
   color: var(--text-dark);
-  padding-left: 50px;
-  display: block;
 }
 
 .user-status {
@@ -251,14 +244,24 @@ body{
 .message {
   display: flex;
   max-width: 70%;
+  margin-bottom: 16px;
 }
 
 .message.outgoing {
-  align-self: flex-end;
+   align-self: flex-end;
+   background-color: #4c6b94;
+   color: white;
+   padding: 5px 15px;
+   border-radius: 5px;
+
 }
 
 .message.incoming {
   align-self: flex-start;
+   background-color:#06d6a0;
+   color: white;
+   padding: 5px 15px;
+   border-radius: 5px;
 }
 
 .message-content {
@@ -267,23 +270,27 @@ body{
   position: relative;
   box-shadow: var(--shadow);
 }
-
 .message.outgoing .message-content {
-  background-color: var(--secondary-edu);
+  background: linear-gradient(135deg, var(--secondary-edu) 0%, var(--primary-edu) 100%);
   color: white;
-  border-bottom-right-radius: 5px;
+  border-radius: 18px 5px 18px 18px;
+  box-shadow: var(--shadow);
+  padding: 12px 16px;
 }
 
 .message.incoming .message-content {
-  background-color: white;
+  background: linear-gradient(135deg, var(--light-edu) 0%, #e6ecf5 100%);
   color: var(--text-dark);
-  border-bottom-left-radius: 5px;
+  border-radius: 5px 18px 18px 18px;
+  box-shadow: var(--shadow);
+  padding: 12px 16px;
+  border: 1px solid #e1e8f0;
 }
 
 .message-sender {
   font-weight: 600;
-  font-size: 0.8rem;
-  margin-bottom: 5px;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
 }
 
 .message.incoming .message-sender {
@@ -293,14 +300,23 @@ body{
 .message-text {
   margin: 0;
   line-height: 1.4;
-  word-break: break-word;
+  font-size: 0.95rem;
 }
 
 .message-time {
   font-size: 0.7rem;
+  margin-top: 4px;
+  opacity: 0.7;
   text-align: right;
-  margin-top: 5px;
-  opacity: 0.8;
+}
+
+
+.message.incoming .message-time {
+  color: var(--text-light);
+}
+
+.message.outgoing .message-time {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .no-messages {

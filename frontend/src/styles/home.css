@@ -31,7 +31,7 @@
   margin-bottom: 12px;
 }
 
-.profile-image {
+.profile-image-home {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -183,8 +183,8 @@
 }
 
 .submit-post-btn:disabled {
-  background: #e4e6e9;
-  color: #bcc0c4;
+  background: #9dc4ff;
+  color: #ffffff;
   cursor: not-allowed;
 }
 

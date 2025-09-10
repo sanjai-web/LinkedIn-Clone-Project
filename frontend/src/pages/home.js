@@ -188,7 +188,7 @@ export default function Home() {
           <div className="post-header">
             {currentUser && currentUser.profileImageUrl ? (
               <img 
-                className="profile-image"
+                className="profile-image-home"
                 src={`${API_BASE_URL}${currentUser.profileImageUrl}`}
                 alt="Profile"
               />
@@ -303,7 +303,7 @@ export default function Home() {
                 <div className="user-details">
                   {post.user && post.user.profileImageUrl ? (
                     <img
-                      className="profile-image"
+                      className="profile-image-home"
                       src={`${API_BASE_URL}${post.user.profileImageUrl}`}
                       alt="Profile"
                     />
